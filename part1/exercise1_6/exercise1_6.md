@@ -30,7 +30,7 @@ $ docker run docker-clock -t 12
 ************
 
 $ nano Dockerfile
-$ docker build .    
+$ docker build .
 $ docker build -t docker-clock 
 $ docker run docker-clock
 13
