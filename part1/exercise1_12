@@ -1,0 +1,88 @@
+
+Dockerfile frontend: see folder exercise1_10
+fronted:
+$ docker build -t frontend .
+Sending build context to Docker daemon  161.2MB
+Step 1/9 : FROM ubuntu:16.04
+ ---> fab5e942c505
+Step 2/9 : WORKDIR /dist
+ ---> Using cache
+ ---> 642dbeb7e459
+Step 3/9 : RUN apt update && apt install -y curl
+ ---> Using cache
+ ---> c65f859ae727
+Step 4/9 : RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && apt install -y nodejs
+ ---> Using cache
+ ---> 91bd4ec49a5b
+Step 5/9 : COPY ./exercise1.10 .
+ ---> Using cache
+ ---> be0980567356
+Step 6/9 : RUN npm install
+ ---> Using cache
+ ---> 7447311bf3d0
+Step 7/9 : ENV API_URL=http://localhost:8000
+ ---> Using cache
+ ---> 1433f13c65e1
+Step 8/9 : EXPOSE 5000
+ ---> Using cache
+ ---> a4185e4d7cbc
+Step 9/9 : CMD npm start
+ ---> Using cache
+ ---> 84ccd759c13f
+Successfully built 84ccd759c13f
+Successfully tagged frontend:latest
+
+$ docker run -p 5000:5000 --rm frontend
+
+> frontend-example-docker@1.0.0 start /dist
+> webpack --mode production && serve -s -l 5000 dist
+...
+INFO: Accepting connections at http://localhost:5000
+
+
+Dockerfile backend see  folder exercise1_11
+backend:
+$ docker build -t backend .
+Sending build context to Docker daemon  237.1kB
+Step 1/10 : FROM ubuntu:16.04
+ ---> fab5e942c505
+Step 2/10 : WORKDIR /dist
+ ---> Using cache
+ ---> 642dbeb7e459
+Step 3/10 : RUN apt update && apt install -y curl
+ ---> Using cache
+ ---> c65f859ae727
+Step 4/10 : RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && apt install -y nodejs
+ ---> Using cache
+ ---> 91bd4ec49a5b
+Step 5/10 : COPY ./backend-example-docker .
+ ---> Using cache
+ ---> 35a9227a6921
+Step 6/10 : RUN npm install
+ ---> Using cache
+ ---> 764a0e405b4b
+Step 7/10 : COPY logs.txt .
+ ---> Using cache
+ ---> 2bc3ecc01296
+Step 8/10 : ENV FRONT_URL=http://localhost:5000
+ ---> Running in 1d22247a9f3f
+Removing intermediate container 1d22247a9f3f
+ ---> a6ca6722240a
+Step 9/10 : EXPOSE 8000
+ ---> Running in 3722db13bc38
+Removing intermediate container 3722db13bc38
+ ---> 3c2b8a12b5ee
+Step 10/10 : ENTRYPOINT npm start
+ ---> Running in 4d38721bfee7
+Removing intermediate container 4d38721bfee7
+ ---> a3d6c8e1ce58
+Successfully built a3d6c8e1ce58
+Successfully tagged backend:latest
+
+$  docker run -p 8000:8000 -v  $(pwd)/logs.txt:/dist/logs.txt --rm backend
+
+> backend-example-docker@1.0.0 start /dist
+> cross-env NODE_ENV=production node index.js
+...
+Started on port 8000
+
