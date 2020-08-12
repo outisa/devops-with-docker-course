@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+  frontend:
+    image: frontend
+    ports:
+      - 5000:5000
+    container_name: frontend
+  backend:
+    image: backend
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis
+      - db
+    environment:
+      - REDIS=redis
+      - DB_USERNAME=example
+      - DB_PASSWORD=example
+      - DB_HOST=db_backendexample
+    container_name: backend
+  redis:
+    image: redis
+    container_name: redis
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=example
+      - POSTGRES_PASSWORD=example
+    container_name: db_backendexample
+ 
