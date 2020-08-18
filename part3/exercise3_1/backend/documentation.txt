@@ -1,0 +1,31 @@
+$ docker history backend
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+ba754d27b4a0        3 minutes ago       /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "npm …   0B                  
+2d296400e57a        3 minutes ago       /bin/sh -c #(nop)  EXPOSE 5000                  0B                  
+9d5ba59236c5        3 minutes ago       /bin/sh -c npm install                          36.5MB              
+a10980d79dcf        4 minutes ago       /bin/sh -c #(nop) COPY dir:74d0768d297dd0f36…   220kB               
+296b83791726        10 minutes ago      /bin/sh -c apt update && apt install -y curl…   176MB               
+81a7b809235b        28 hours ago        /bin/sh -c #(nop) WORKDIR /dist                 0B                  
+fab5e942c505        3 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
+<missing>           3 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B                  
+<missing>           3 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B                
+<missing>           3 weeks ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B                  
+<missing>           3 weeks ago         /bin/sh -c #(nop) ADD file:513ae777bc4042f84…   126MB
+
+// After changes
+$ docker history backend-version2
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+6780882400ee        49 minutes ago      /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "npm …   0B                  
+c45072370207        49 minutes ago      /bin/sh -c #(nop)  EXPOSE 8000                  0B                  
+6d45361452b2        49 minutes ago      /bin/sh -c #(nop) COPY file:8775dcb0ced75ca1…   0B                  
+a88cfd0e331a        49 minutes ago      /bin/sh -c apt-get update && apt-get install…   186MB               
+f591ac875aad        About an hour ago   /bin/sh -c #(nop) COPY dir:74d0768d297dd0f36…   220kB               
+81a7b809235b        29 hours ago        /bin/sh -c #(nop) WORKDIR /dist                 0B                  
+fab5e942c505        3 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
+<missing>           3 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B                  
+<missing>           3 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B                
+<missing>           3 weeks ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B                  
+<missing>           3 weeks ago         /bin/sh -c #(nop) ADD file:513ae777bc4042f84…   126MB
+
+I think there is still some stuff, which could be removed. However I tested both of the files, and they worked.
+size: 313 MB

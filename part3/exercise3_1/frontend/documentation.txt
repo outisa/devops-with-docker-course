@@ -1,0 +1,60 @@
+$ docker history frontend
+
+IMAGE               CREATED              CREATED BY                                      SIZE                COMMENT
+06ae4884a16d        About a minute ago   /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "npm …   0B                  
+637ed0d91b15        About a minute ago   /bin/sh -c #(nop)  EXPOSE 5000                  0B                  
+aa2fc216527f        About a minute ago   /bin/sh -c npm install                          212MB               
+9dd7d4fea058        2 minutes ago        /bin/sh -c #(nop) COPY dir:6a19c6be589548218…   920kB               
+91bd4ec49a5b        5 days ago           /bin/sh -c curl -sL https://deb.nodesource.c…   135MB               
+c65f859ae727        5 days ago           /bin/sh -c apt update && apt install -y curl    42.5MB              
+642dbeb7e459        5 days ago           /bin/sh -c #(nop) WORKDIR /dist                 0B                  
+fab5e942c505        2 weeks ago          /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
+<missing>           2 weeks ago          /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B                  
+<missing>           2 weeks ago          /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B                
+<missing>           2 weeks ago          /bin/sh -c rm -rf /var/lib/apt/lists/*          0B                  
+<missing>           2 weeks ago          /bin/sh -c #(nop) ADD file:513ae777bc4042f84…   126MB   
+
+// after first change.
+$ docker history frontend
+ IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+9cf3e9895870        2 minutes ago       /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "npm …   0B                  
+c3e88153a78c        2 minutes ago       /bin/sh -c #(nop)  EXPOSE 5000                  0B                  
+dee765bb3ad3        2 minutes ago       /bin/sh -c apt-get update && apt-get install…   362MB               
+ad78c809c5c8        23 minutes ago      /bin/sh -c #(nop) COPY dir:05429835c6cde53f4…   920kB               
+81a7b809235b        23 minutes ago      /bin/sh -c #(nop) WORKDIR /dist                 0B                  
+fab5e942c505        2 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
+<missing>           2 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B                  
+<missing>           2 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B                
+<missing>           2 weeks ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B                  
+<missing>           2 weeks ago         /bin/sh -c #(nop) ADD file:513ae777bc4042f84…   126MB
+
+// Then I changed dockerfile so that it does make a production version from the frontend-example.
+// So actually it took a bit more space than previous one. So I kept on working...
+$ docker history frontend
+IMAGE               CREATED              CREATED BY                                      SIZE                COMMENT
+6dc58884f109        About a minute ago   /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "serv…   0B                  
+e398ec253a8e        About a minute ago   /bin/sh -c #(nop)  EXPOSE 5000                  0B                  
+fe344705719d        About a minute ago   /bin/sh -c apt-get update && apt-get install…   402MB               
+ad78c809c5c8        26 hours ago         /bin/sh -c #(nop) COPY dir:05429835c6cde53f4…   920kB               
+81a7b809235b        26 hours ago         /bin/sh -c #(nop) WORKDIR /dist                 0B                  
+fab5e942c505        3 weeks ago          /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
+<missing>           3 weeks ago          /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B                  
+<missing>           3 weeks ago          /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B                
+<missing>           3 weeks ago          /bin/sh -c rm -rf /var/lib/apt/lists/*          0B                  
+<missing>           3 weeks ago          /bin/sh -c #(nop) ADD file:513ae777bc4042f84…   126MB
+
+$ docker history frontend-version2
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+bc81101cf2c8        26 minutes ago      /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "serv…   0B                  
+adbf6e7293a2        26 minutes ago      /bin/sh -c #(nop)  EXPOSE 5000                  0B                  
+9cc06b37b38b        26 minutes ago      /bin/sh -c apt-get update && apt-get install…   211MB               
+9d4a103f9189        About an hour ago   /bin/sh -c #(nop) COPY dir:29ba0aa25e1c2e0b0…   557kB               
+81a7b809235b        29 hours ago        /bin/sh -c #(nop) WORKDIR /dist                 0B                  
+fab5e942c505        3 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
+<missing>           3 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B                  
+<missing>           3 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B                
+<missing>           3 weeks ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B                  
+<missing>           3 weeks ago         /bin/sh -c #(nop) ADD file:513ae777bc4042f84…   126MB    
+
+I tested, that everything still works after changes.
+(size: 338 MB)          
